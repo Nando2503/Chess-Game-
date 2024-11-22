@@ -1,9 +1,11 @@
 ﻿using System;
 using board;
+using ChessGame;
 
-Position position;
 
 Board board = new Board(8, 8);
+
+Screen.PrintBoard(board);
 
 Console.ReadLine();
 

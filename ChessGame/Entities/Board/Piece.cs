@@ -22,5 +22,7 @@ namespace board
             this.MovementNumber = 0;
 
         }
+
+        
     }
 }
