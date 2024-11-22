@@ -10,6 +10,7 @@ namespace ChessGame
         {
             for (int i = 0; i < chessboard.Lines; i++)
             {
+                Console.Write(8 - i + " ");
                 for (int j = 0; j < chessboard.Columns; j++)
                 {
                     if (chessboard.piece(i, j) == null)
@@ -18,11 +19,35 @@ namespace ChessGame
                     }
                     else
                     {
-                        Console.Write(chessboard.piece(i, j) + " ");
+                        PressPiece(chessboard.piece(i, j));
+                        Console.Write(" ");
                     }
                 }
                 Console.WriteLine();
             }
+
+            Console.WriteLine("  A B C D E F G H");
+
+
+
         }
+        public static void PressPiece(Piece piece)
+        {
+            if (piece.Color == Color.White)
+            {
+                Console.Write(piece);
+            }
+            else
+            {
+                ConsoleColor aux = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write(piece);
+                Console.ForegroundColor = aux;
+            }
+            
+        }
+
+
+
     }
 }
