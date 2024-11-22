@@ -25,11 +25,43 @@ namespace board
             return _pieces[line, column];
 
         }
+        public Piece piece(Position pos)
+        {
+            return _pieces[pos.Line, pos.Column];
+        }
+
+        public bool TheresPiece(Position pos)
+        {
+
+            PositionValid(pos);
+            return piece(pos) != null;
+        }
 
         public void PutPiece(Piece p, Position pos)
         {
+            if (TheresPiece(pos))
+            {
+                throw new BoardExeption("There's already a piece in this position, try again");
+            }
             _pieces[pos.Line, pos.Column] = p;
             p.Position = pos;
         }
+
+        public bool ValidPosition(Position pos)
+        {
+            if (pos.Line < 0 || pos.Line >= Lines || pos.Column < 0 || pos.Column >= Columns){
+                return false;
+            }
+            return true;
+        }
+
+        public void PositionValid(Position pos)
+        {
+            if (!ValidPosition(pos))
+            {
+                throw new BoardExeption("invalid position, try again");
+            }
+        }
+
     }
 }
