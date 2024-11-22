@@ -1,6 +1,9 @@
 ﻿using System;
-using Board;
+using board;
 
 Position position;
 
-position = new Position(3, 4);
+Board board = new Board(8, 8);
+
+Console.ReadLine();
+
