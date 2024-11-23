@@ -1,50 +1,82 @@
 ﻿using board;
 using System.Collections.Generic;
+using System.Reflection.PortableExecutable;
 using System.Runtime.Intrinsics.X86;
+using System;
 
 namespace Game
 {
     internal class ChessMatch
     {
-        public Board board {  get; private set; }
+        public Board board { get; private set; }
         public int Turn { get; private set; }
-        public Color CurrentPlayer {  get; private set; }
+        public Color CurrentPlayer { get; private set; }
 
         public bool Finished { get; private set; }
+
+        public bool Check { get; private set; }
 
         private HashSet<Piece> pices;
         private HashSet<Piece> captured;
 
         public ChessMatch()
         {
-            board = new Board(8,8);
+            board = new Board(8, 8);
             Turn = 1;
             CurrentPlayer = Color.White;
             Finished = false;
+            Check = false;
             pices = new HashSet<Piece>();
             captured = new HashSet<Piece>();
             PutPieces();
         }
 
-        public void ExecuteMovement(Position origin, Position destination)
+        public Piece ExecuteMovement(Position origin, Position destination)
         {
             if (board.piece(origin) == null)
             {
                 throw new BoardExeption("No piece found at the origin position.");
             }
             Piece p = board.RemovePiece(origin);
-            p.AddMoveAmount();            
+            p.AddMoveAmount();
             Piece capturedPiece = board.RemovePiece(destination);
             board.PutPiece(p, destination);
             if (capturedPiece != null)
             {
                 captured.Add(capturedPiece);
             }
+            return capturedPiece;
         }
 
+        public void UndoMove(Position origin, Position destination, Piece capturedPiece)
+        {
+            Piece p = board.RemovePiece(destination);
+            p.MinusMoveAmount();
+            if (capturedPiece != null)
+            {
+                board.PutPiece(capturedPiece, destination);
+                captured.Remove(capturedPiece);
+            }
+            board.PutPiece(p, origin);
+        }
         public void RealizePlay(Position origin, Position destination)
         {
-            ExecuteMovement(origin, destination);
+            Piece capturedPiece = ExecuteMovement(origin, destination);
+            if (IsInCheck(CurrentPlayer))
+            {
+                UndoMove(origin, destination, capturedPiece);
+                throw new BoardExeption("you cannot put yourself in check!");
+            }
+            if (IsInCheck(Enemy(CurrentPlayer)))
+            {
+                Check = true;
+            }
+            else
+            {
+                Check = false;
+            }
+
+
             Turn++;
             PlayerChange();
         }
@@ -67,7 +99,7 @@ namespace Game
         }
         public void DestinyPValidation(Position origin, Position destination)
         {
-            if(!board.piece(origin).CanYouMoveTo(destination))
+            if (!board.piece(origin).CanYouMoveTo(destination))
             {
                 throw new BoardExeption("Invalid Destitation");
             }
@@ -90,7 +122,7 @@ namespace Game
             HashSet<Piece> aux = new HashSet<Piece>();
             foreach (Piece x in captured)
             {
-                if(x.Color == color)
+                if (x.Color == color)
                 {
                     aux.Add(x);
                 }
@@ -112,6 +144,49 @@ namespace Game
             return aux;
         }
 
+        private Color Enemy(Color color)
+        {
+            if (color == Color.White)
+            {
+                return Color.Black;
+            }
+            else
+            {
+                return Color.White;
+            }
+        }
+
+        private Piece King(Color color)
+        {
+            foreach (Piece x in pieceInGame(color))
+            {
+                if (x is King)
+                {
+                    return x;
+                }
+            }
+            return null;
+        }
+
+        public bool IsInCheck(Color color)
+        {
+            Piece R = King(color);
+            if (R == null)
+            {
+                throw new BoardExeption("Theres no king with the colour " + color + "in the board");
+            }
+
+            foreach (Piece x in pieceInGame(Enemy(color)))
+            {
+                bool[,] mat = x.PossibleMoves();
+                if (mat[R.Position.Line, R.Position.Column])
+                {
+                    return true;
+                }
+            }
+            return false;
+
+        }
 
         public void AddNewPiece(char column, int line, Piece piece)
         {
@@ -133,7 +208,7 @@ namespace Game
             AddNewPiece('c', 8, new Tower(board, Color.Black));
             AddNewPiece('e', 7, new Tower(board, Color.Black));
             AddNewPiece('e', 8, new Tower(board, Color.Black));
-            AddNewPiece('d', 8, new King(board, Color. Black));
+            AddNewPiece('d', 8, new King(board, Color.Black));
             AddNewPiece('d', 7, new Tower(board, Color.Black));
 
 

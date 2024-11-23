@@ -27,6 +27,10 @@ namespace board
         {
             MovementNumber++;
         }
+        public void MinusMoveAmount()
+        {
+            MovementNumber--;
+        }
 
         public bool ThereIsPossibleMovement()
         {
