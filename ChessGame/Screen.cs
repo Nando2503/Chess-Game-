@@ -1,11 +1,46 @@
 ﻿using board;
 using System.Data;
+using System.Collections.Generic;
 using System;
 using Game;
 namespace ChessGame
 {
     internal class Screen
     {
+
+        public static void PressMatch(ChessMatch match)
+        {
+            Screen.PrintBoard(match.board);
+            Console.WriteLine("");
+            Console.WriteLine("turn: " + match.Turn);
+            PressCapturedPieces(match);
+            Console.WriteLine("Waiting for a move: " + match.CurrentPlayer);
+        }
+
+        public static void PressCapturedPieces(ChessMatch match)
+        {
+            Console.WriteLine("captured pieces: ");
+            Console.Write("Whites: ");
+            PressPieceGroup(match.CapturedPieces(Color.White));
+            Console.WriteLine();
+            Console.Write("Blacks: ");
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            PressPieceGroup(match.CapturedPieces(Color.Black));
+            Console.ForegroundColor = aux;
+            Console.WriteLine();
+
+        }
+
+        public static void PressPieceGroup(HashSet<Piece> group)
+        {
+            Console.Write("[ ");
+            foreach (Piece x in group)
+            {
+                Console.Write(x + " ");
+            }
+            Console.Write(" ]");
+        }
         public static void PrintBoard(Board chessboard)
         {
             for (int i = 0; i < chessboard.Lines; i++)

@@ -17,9 +17,7 @@ try
 
 
             Console.Clear();
-            Screen.PrintBoard(match.board);
-            Console.WriteLine("turn: " + match.Turn);
-            Console.WriteLine("Waiting for a move: " + match.CurrentPlayer);
+            Screen.PressMatch(match);
             Console.WriteLine();
             Console.Write("Origin: ");
             Position origin = Screen.ReadPositionChess().ToPosition();
