@@ -4,16 +4,22 @@ using ChessGame;
 using Game;
 try
 {
-    Board board = new Board(8, 8);
-    board.PutPiece(new Tower(board, Color.Black), new Position(0, 0));
-    board.PutPiece(new Tower(board, Color.Black), new Position(1, 3));
-    board.PutPiece(new King(board, Color.Black), new Position(2, 4));
+    ChessMatch match = new ChessMatch();
+    while (!match.Finished)
+    {
+        Console.Clear();
+        Screen.PrintBoard(match.board);
+        Console.WriteLine();
+        Console.Write("Origin: ");
+        Position origin = Screen.ReadPositionChess().ToPosition();
+        Console.Write("Destination: ");
+        Position destination = Screen.ReadPositionChess().ToPosition();
+        match.ExecuteMovement(origin, destination);
 
-    board.PutPiece(new Tower(board, Color.White), new Position(3, 5));
+    }
 
 
 
-    Screen.PrintBoard(board);
 }
 
 catch (BoardExeption exeption)

@@ -10,7 +10,7 @@ namespace board
     {
         public Position Position { get; set; }
         public Color Color { get; protected set; }
-        public int MovementNumber { get; protected set; }
+        public int MovementNumber { get; set; }
         public Board Board { get; protected set; }
 
 
@@ -21,6 +21,11 @@ namespace board
             this.Color = color;
             this.MovementNumber = 0;
 
+        }
+
+        public void AddMoveAmount()
+        {
+            MovementNumber++;
         }
 
 
