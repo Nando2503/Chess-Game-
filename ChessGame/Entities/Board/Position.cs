@@ -18,6 +18,12 @@ namespace board
 
         }
 
+        public void DefineValues(int line, int column)
+        {
+            this.Line = line;
+            this.Column = column;
+        }
+
 
         public override string ToString()
         {

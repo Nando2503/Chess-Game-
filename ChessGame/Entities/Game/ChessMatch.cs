@@ -34,7 +34,7 @@ namespace Game
         private void PutPieces()
         {
             board.PutPiece(new Tower(board, Color.White), new PositionGame('c', 1).ToPosition());
-            board.PutPiece(new Tower(board, Color.White), new PositionGame('c', 2).ToPosition());
+            board.PutPiece(new King(board, Color.White), new PositionGame('c', 2).ToPosition());
             board.PutPiece(new Tower(board, Color.White), new PositionGame('c', 3).ToPosition());
             board.PutPiece(new Tower(board, Color.White), new PositionGame('d', 5).ToPosition());
 
