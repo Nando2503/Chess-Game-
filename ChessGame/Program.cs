@@ -1,37 +1,55 @@
 ﻿using System;
+using System.Linq.Expressions;
 using board;
 using ChessGame;
 using Game;
 try
 {
+
+
+
     ChessMatch match = new ChessMatch();
     while (!match.Finished)
     {
-        Console.Clear();
-        Screen.PrintBoard(match.board);
-        Console.WriteLine();
-        Console.Write("Origin: ");
-        Position origin = Screen.ReadPositionChess().ToPosition();
 
-        bool[,] possibleposition = match.board.piece(origin).PossibleMoves();
+        try
+        {
 
-        Console.Clear();
-        Screen.PrintBoard(match.board, possibleposition);
 
-        Console.WriteLine();
-        Console.Write("Destination: ");
-        Position destination = Screen.ReadPositionChess().ToPosition();
-        match.ExecuteMovement(origin, destination);
+            Console.Clear();
+            Screen.PrintBoard(match.board);
+            Console.WriteLine("turn: " + match.Turn);
+            Console.WriteLine("Waiting for a move: " + match.CurrentPlayer);
+            Console.WriteLine();
+            Console.Write("Origin: ");
+            Position origin = Screen.ReadPositionChess().ToPosition();
+            match.OriginPValidation(origin);
+
+            bool[,] possibleposition = match.board.piece(origin).PossibleMoves();
+
+            Console.Clear();
+            Screen.PrintBoard(match.board, possibleposition);
+
+            Console.WriteLine();
+            Console.Write("Destination: ");
+            Position destination = Screen.ReadPositionChess().ToPosition();
+            match.DestinyPValidation(origin, destination);
+            match.RealizePlay(origin, destination);
+        }
+        catch (BoardExeption e)
+        {
+            Console.WriteLine(e.Message);
+            Console.ReadLine();
+        }
 
     }
-
-
-
 }
-
 catch (BoardExeption exeption)
 {
     Console.WriteLine(exeption.Message);
 }
+
+
+
 
 
