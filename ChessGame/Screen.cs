@@ -13,12 +13,25 @@ namespace ChessGame
             Screen.PrintBoard(match.board);
             Console.WriteLine("");
             Console.WriteLine("turn: " + match.Turn);
-            PressCapturedPieces(match);
-            Console.WriteLine("Waiting for a move: " + match.CurrentPlayer);
-            if (match.Check)
+
+            if (!match.Finished)
             {
-                Console.WriteLine("YOU ARE IN CHECK!");
+
+
+
+                PressCapturedPieces(match);
+                Console.WriteLine("Waiting for a move: " + match.CurrentPlayer);
+                if (match.Check)
+                {
+                    Console.WriteLine("YOU ARE IN CHECK!");
+                }
             }
+            else
+            {
+                Console.WriteLine("CHECKMATE!");
+                Console.WriteLine("WINNER: " + match.CurrentPlayer);
+            }
+
         }
 
         public static void PressCapturedPieces(ChessMatch match)

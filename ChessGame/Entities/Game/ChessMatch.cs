@@ -76,6 +76,11 @@ namespace Game
                 Check = false;
             }
 
+            if(CheckTest(Enemy(CurrentPlayer)))
+            {
+                Finished = true;
+            }
+
 
             Turn++;
             PlayerChange();
@@ -188,6 +193,37 @@ namespace Game
 
         }
 
+        public bool CheckTest(Color color)
+        {
+            if (!IsInCheck(color))
+            {
+                return false;
+            }
+            foreach(Piece x in pieceInGame(color))
+            {
+                bool[,] mat = x.PossibleMoves();
+                for(int i = 0; i<board.Lines;  i++)
+                {
+                    for(int j = 0; j<board.Columns; j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Position origin = x.Position;
+                            Position destiny = new Position(i, j);
+                            Piece capturedPiece = ExecuteMovement(origin, destiny);
+                            bool checktest = IsInCheck(color);
+                            UndoMove(origin, destiny,capturedPiece);
+                            if (!checktest)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
         public void AddNewPiece(char column, int line, Piece piece)
         {
             board.PutPiece(piece, new PositionGame(column, line).ToPosition());
@@ -197,19 +233,14 @@ namespace Game
         private void PutPieces()
         {
             AddNewPiece('c', 1, new Tower(board, Color.White));
-            AddNewPiece('c', 2, new Tower(board, Color.White));
-            AddNewPiece('e', 1, new Tower(board, Color.White));
-            AddNewPiece('e', 2, new Tower(board, Color.White));
             AddNewPiece('d', 1, new King(board, Color.White));
-            AddNewPiece('d', 2, new Tower(board, Color.White));
+            AddNewPiece('h', 7, new Tower(board, Color.White));
+           
 
 
-            AddNewPiece('c', 7, new Tower(board, Color.Black));
-            AddNewPiece('c', 8, new Tower(board, Color.Black));
-            AddNewPiece('e', 7, new Tower(board, Color.Black));
-            AddNewPiece('e', 8, new Tower(board, Color.Black));
-            AddNewPiece('d', 8, new King(board, Color.Black));
-            AddNewPiece('d', 7, new Tower(board, Color.Black));
+            AddNewPiece('b', 8, new Tower(board, Color.Black));
+            AddNewPiece('a', 8, new King(board, Color.Black));
+            
 
 
 

@@ -41,6 +41,8 @@ try
         }
 
     }
+    Console.Clear();
+    Screen.PressMatch(match);
 }
 catch (BoardExeption exeption)
 {
