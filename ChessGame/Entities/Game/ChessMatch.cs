@@ -46,6 +46,27 @@ namespace Game
             {
                 captured.Add(capturedPiece);
             }
+
+            //## special move smallroque
+            if (p is King && destination.Column == origin.Column + 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column + 3);
+                Position destinyT = new Position(origin.Line, origin.Column + 1);
+                Piece T = board.RemovePiece(originT);
+                T.AddMoveAmount();
+                board.PutPiece(T, destinyT);
+            }
+
+            //## special move bigroque
+            if (p is King && destination.Column == origin.Column - 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column - 4);
+                Position destinyT = new Position(origin.Line, origin.Column - 1);
+                Piece T = board.RemovePiece(originT);
+                T.AddMoveAmount();
+                board.PutPiece(T, destinyT);
+            }
+
             return capturedPiece;
         }
 
@@ -59,6 +80,25 @@ namespace Game
                 captured.Remove(capturedPiece);
             }
             board.PutPiece(p, origin);
+
+            //## special move smallroque
+            if (p is King && destination.Column == origin.Column + 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column + 3);
+                Position destinyT = new Position(origin.Line, origin.Column + 1);
+                Piece T = board.RemovePiece(destinyT);
+                T.MinusMoveAmount();
+                board.PutPiece(T, originT);
+            }
+            //## special move biglroque
+            if (p is King && destination.Column == origin.Column - 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column - 4);
+                Position destinyT = new Position(origin.Line, origin.Column - 1);
+                Piece T = board.RemovePiece(destinyT);
+                T.MinusMoveAmount();
+                board.PutPiece(T, originT);
+            }
         }
         public void RealizePlay(Position origin, Position destination)
         {
@@ -237,7 +277,7 @@ namespace Game
             AddNewPiece('b', 1, new Horse(board, Color.White));
             AddNewPiece('c', 1, new Bishop(board, Color.White));
             AddNewPiece('d', 1, new Queen(board, Color.White));
-            AddNewPiece('e', 1, new King(board, Color.White));
+            AddNewPiece('e', 1, new King(board, Color.White, this));
             AddNewPiece('f', 1, new Bishop(board, Color.White));
             AddNewPiece('g', 1, new Horse(board, Color.White));
             AddNewPiece('h', 1, new Tower(board, Color.White));
@@ -257,7 +297,7 @@ namespace Game
             AddNewPiece('b', 8, new Horse(board, Color.Black));
             AddNewPiece('c', 8, new Bishop(board, Color.Black));
             AddNewPiece('d', 8, new Queen(board, Color.Black));
-            AddNewPiece('e', 8, new King(board, Color.Black));
+            AddNewPiece('e', 8, new King(board, Color.Black, this));
             AddNewPiece('f', 8, new Bishop(board, Color.Black));
             AddNewPiece('g', 8, new Horse(board, Color.Black));
             AddNewPiece('h', 8, new Tower(board, Color.Black));
