@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection.PortableExecutable;
 using System.Runtime.Intrinsics.X86;
 using System;
+using ChessGame.Entities.Game;
 
 namespace Game
 {
@@ -104,7 +105,7 @@ namespace Game
         }
         public void DestinyPValidation(Position origin, Position destination)
         {
-            if (!board.piece(origin).CanYouMoveTo(destination))
+            if (!board.piece(origin).PossibleMove(destination))
             {
                 throw new BoardExeption("Invalid Destitation");
             }
@@ -232,15 +233,43 @@ namespace Game
 
         private void PutPieces()
         {
-            AddNewPiece('c', 1, new Tower(board, Color.White));
-            AddNewPiece('d', 1, new King(board, Color.White));
-            AddNewPiece('h', 7, new Tower(board, Color.White));
-           
+            AddNewPiece('a', 1, new Tower(board, Color.White));
+            AddNewPiece('b', 1, new Horse(board, Color.White));
+            AddNewPiece('c', 1, new Bishop(board, Color.White));
+            AddNewPiece('d', 1, new Queen(board, Color.White));
+            AddNewPiece('e', 1, new King(board, Color.White));
+            AddNewPiece('f', 1, new Bishop(board, Color.White));
+            AddNewPiece('g', 1, new Horse(board, Color.White));
+            AddNewPiece('h', 1, new Tower(board, Color.White));
+            AddNewPiece('a', 2, new Pawn(board, Color.White));
+            AddNewPiece('b', 2, new Pawn(board, Color.White));
+            AddNewPiece('c', 2, new Pawn(board, Color.White));
+            AddNewPiece('d', 2, new Pawn(board, Color.White));
+            AddNewPiece('e', 2, new Pawn(board, Color.White));
+            AddNewPiece('f', 2, new Pawn(board, Color.White));
+            AddNewPiece('g', 2, new Pawn(board, Color.White));
+            AddNewPiece('h', 2, new Pawn(board, Color.White));
 
 
-            AddNewPiece('b', 8, new Tower(board, Color.Black));
-            AddNewPiece('a', 8, new King(board, Color.Black));
             
+
+            AddNewPiece('a', 8, new Tower(board, Color.Black));
+            AddNewPiece('b', 8, new Horse(board, Color.Black));
+            AddNewPiece('c', 8, new Bishop(board, Color.Black));
+            AddNewPiece('d', 8, new Queen(board, Color.Black));
+            AddNewPiece('e', 8, new King(board, Color.Black));
+            AddNewPiece('f', 8, new Bishop(board, Color.Black));
+            AddNewPiece('g', 8, new Horse(board, Color.Black));
+            AddNewPiece('h', 8, new Tower(board, Color.Black));
+            AddNewPiece('a', 7, new Pawn(board, Color.Black));
+            AddNewPiece('b', 7, new Pawn(board, Color.Black));
+            AddNewPiece('c', 7, new Pawn(board, Color.Black));
+            AddNewPiece('d', 7, new Pawn(board, Color.Black));
+            AddNewPiece('e', 7, new Pawn(board, Color.Black));
+            AddNewPiece('f', 7, new Pawn(board, Color.Black));
+            AddNewPiece('g', 7, new Pawn(board, Color.Black));
+            AddNewPiece('h', 7, new Pawn(board, Color.Black));
+
 
 
 
