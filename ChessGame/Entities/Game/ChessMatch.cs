@@ -149,6 +149,21 @@ namespace Game
                 UndoMove(origin, destination, capturedPiece);
                 throw new BoardExeption("you cannot put yourself in check!");
             }
+
+            Piece p = board.piece(destination);
+            // special move promotion
+            if (p is Pawn)
+            {
+                if ((p.Color == Color.White && destination.Line == 0) || (p.Color == Color.Black && destination.Line  == 7))
+                {
+                    p = board.RemovePiece(destination);
+                    pices.Remove(p);
+                    Piece Queen = new Queen(board, p.Color);
+                    board.PutPiece(Queen, destination);
+                    pices.Add(Queen);
+                }
+            }
+
             if (IsInCheck(Enemy(CurrentPlayer)))
             {
                 Check = true;
@@ -167,8 +182,6 @@ namespace Game
                 Turn++;
                 PlayerChange();
             }
-
-            Piece p = board.piece(destination);
 
             //#special move en passant
             if (p is Pawn && (destination.Line == origin.Line - 2 || destination.Line == origin.Line + 2))
